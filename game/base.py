@@ -1,5 +1,4 @@
 import pygame
+import settings
 class Base:
-    def __init__(self):
-        pass
-        
+    pass
