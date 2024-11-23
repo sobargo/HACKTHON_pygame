@@ -2,6 +2,7 @@ import sys
 import pygame
 from player_tank import Player_tank
 from settings import Settings
+import base
 class Tank_war:
     def __init__(self):
         pygame.init()
@@ -25,6 +26,7 @@ class Tank_war:
                 elif event.type == pygame.KEYUP:
                     self._check_keyup_events(event)
 
+
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
             self.player_tank.moving_right = True
@@ -37,7 +39,15 @@ class Tank_war:
         elif event.key == pygame.K_q:
             sys.exit()
 
-
+    def mouse(self) -> None:
+            mouse_image = pygame.image.load("asset\image\map_Obstacles_png\mouse.png")
+            x,y = pygame.mouse.get_pos()
+            #鼠标位置
+            x -=mouse_image.get_width()/2
+            y -=mouse_image.get_height()/2
+            #tu pian wei zhi
+            self.screen.blit(mouse_image,(x,y))
+            pygame.display.flip()
 
 
     def _check_keyup_events(self,event):
@@ -57,7 +67,7 @@ class Tank_war:
         self.player_tank.blitme()
 
         pygame.display.flip()
-         
+ #====================以上为初始化===================        
 
 
     def run_game(self):
@@ -65,9 +75,10 @@ class Tank_war:
             self._check_events()
             self.player_tank.update()
             self._update_screen()
-
+            self.mouse()
 
             self.clock.tick(60)
 if __name__ == '__main__':
+    
     tw = Tank_war()
     tw.run_game()
