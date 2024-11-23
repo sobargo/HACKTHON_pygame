@@ -10,7 +10,7 @@ class Tank_war:
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         pygame.display.set_caption("Tank war")
 
-        self.background_image = pygame.image.load()
+        self.background_image = pygame.image.load(r"test_game\asset\image\background.jpg")
 
         self.player_tank = Player_tank(self)
         
@@ -63,6 +63,7 @@ class Tank_war:
     def run_game(self):
         while True:
             self._check_events()
+            self.player_tank.update()
             self._update_screen()
 
 

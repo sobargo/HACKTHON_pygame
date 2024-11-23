@@ -5,7 +5,7 @@ class Player_tank:
         self.settings = tw_game.settings
         self.screen_rect = tw_game.screen.get_rect()
 
-        self.image = pygame.image.load()
+        self.image = pygame.image.load(r"test_game\asset\image\map_Obstacles_png\f6d4b697888d44e5950e135bd510cdd6.png")
         self.rect = self.image.get_rect()
 
         self.rect.center = self.screen_rect.center
