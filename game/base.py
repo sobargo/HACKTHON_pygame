@@ -1,14 +1,11 @@
 import pygame
 class Base:
     def __init__(self):
-        # 导入pygame库
-        import pygame
-
         # 初始化pygame
         pygame.init()
         
         # 设置窗口大小
-        width, height = 1920，1080
+        width, height = 1920,1080
         screen = pygame.display.set_mode((width, height))
         
         # 设置窗口标题
@@ -30,4 +27,3 @@ class Base:
         
         # 退出pygame
         pygame.quit()
-                pass
