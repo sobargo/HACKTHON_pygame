@@ -2,7 +2,7 @@ import sys
 import pygame
 from player_tank import Player_tank
 from settings import Settings
-import base
+from base import Base
 class Tank_war:
     def __init__(self):
         pygame.init()
@@ -10,6 +10,7 @@ class Tank_war:
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         pygame.display.set_caption("Tank war")
+        self.base = Base(self)
 
         self.background_image = pygame.image.load(r"asset\image\background.jpg")
 
@@ -65,7 +66,7 @@ class Tank_war:
     def _update_screen(self):
         self.screen.blit(self.background_image, [0, 0])
         self.player_tank.blitme()
-
+        self.base.blitme()
         pygame.display.flip()
  #====================以上为初始化===================        
 
@@ -76,7 +77,6 @@ class Tank_war:
             self.player_tank.update()
             self._update_screen()
             self.mouse()
-
             self.clock.tick(60)
 if __name__ == '__main__':
     
