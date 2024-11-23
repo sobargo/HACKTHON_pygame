@@ -1,5 +1,5 @@
 import pygame
-import settings
+from settings import Settings
 class Player_tank:
     #=====车身四种变换=====
     #body_up = pygame.image.load(r"asset\image\map_Obstacles_png\tank1_body_u.png")
