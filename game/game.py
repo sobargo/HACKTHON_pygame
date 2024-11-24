@@ -5,6 +5,7 @@ from settings import Settings
 from base import Base
 from bullet import Bullet
 from pygame.sprite import Sprite
+from cannon import Turret
 class Tank_war:
     def __init__(self):
         pygame.init()
@@ -19,6 +20,7 @@ class Tank_war:
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
         self._create_base()
+        self.cannon = Turret(self,self.player_tank)
 
 
 
@@ -94,6 +96,7 @@ class Tank_war:
             bullet.draw_bullet() 
         self.player_tank.blitme()
         self.bases.draw(self.screen)
+        self.cannon.draw(self.screen,self.player_tank)
         pygame.display.flip()
  #====================以上为初始化===================        
 
@@ -103,7 +106,7 @@ class Tank_war:
             self._check_events()
             self.player_tank.update()
             self.bullets.update()
-            
+            self.cannon.rotate_towards_mouse()
             self._update_bullets()
             self._update_screen()
             self.mouse()

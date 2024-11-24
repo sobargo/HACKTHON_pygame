@@ -4,6 +4,7 @@ from pygame import Vector2
 class Bullet(Sprite):
     def __init__(self,tw_game):
         super().__init__()
+        self.image = pygame.image.load(r"asset\image\bullet.png")
         self.screen = tw_game.screen
         self.settings = tw_game.settings
         self.color = self.settings.bullet_color
@@ -21,5 +22,5 @@ class Bullet(Sprite):
         
 
     def draw_bullet(self):  
-        pygame.draw.rect(self.screen,self.color,self.rect)
+        self.screen.blit(self.image,self.rect)
 

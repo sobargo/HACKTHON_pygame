@@ -43,6 +43,7 @@ class Player_tank:
             self.y-=self.settings.player_tank_speed
         self.rect.x = self.x
         self.rect.y = self.y
+        
     def blitme(self):
         self.screen.blit(self.image,self.rect)
     
