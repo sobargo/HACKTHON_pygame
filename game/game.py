@@ -4,9 +4,13 @@ from player_tank import Player_tank
 from settings import Settings
 from base import Base
 from bullet import Bullet
+from enemy_tank import Enemy_tank 
+import pygame.mixer
 class Tank_war:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
+        self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
         self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
@@ -17,7 +21,9 @@ class Tank_war:
 
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
+        self.enemy_tanks = pygame.sprite.Group()
         self._create_base()
+        self._create_enemy_tanks()
 
 
 
@@ -25,6 +31,9 @@ class Tank_war:
         base = Base(self)
         self.bases.add(base)
         
+    def _create_enemy_tanks(self):
+        enemy_tank = Enemy_tank(self)
+        self.enemy_tanks.add(enemy_tank)
 
 
     def _check_events(self):
@@ -81,7 +90,10 @@ class Tank_war:
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets.remove(bullet)
                 print(len(self.bullets))
-        collisions = pygame.sprite.groupcollide(self.bullets,self.bases,True,False)
+        collisions1 = pygame.sprite.groupcollide(self.bullets,self.bases,True,False)
+        collisions2 = pygame.sprite.groupcollide(self.bullets,self.enemy_tanks,True,True)
+        for bullet,enemies in collisions2.items():
+            self.collision2_sound.play()
 
     def _fire_bullet(self):
         new_bullet = Bullet(self)
@@ -92,6 +104,7 @@ class Tank_war:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
         self.player_tank.blitme()
+        self.enemy_tanks.draw(self.screen)
         self.bases.draw(self.screen)
         pygame.display.flip()
  #====================以上为初始化===================        
