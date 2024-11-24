@@ -4,6 +4,7 @@ from player_tank import Player_tank
 from settings import Settings
 from base import Base
 from bullet import Bullet
+from pygame.sprite import Sprite
 class Tank_war:
     def __init__(self):
         pygame.init()
@@ -11,12 +12,19 @@ class Tank_war:
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         pygame.display.set_caption("Tank war")
-        self.base = Base(self)
+        self.bases = pygame.sprite.Group() 
 
         self.background_image = pygame.image.load(r"asset\image\background.jpg")
 
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
+        self._create_base()
+
+
+
+    def _create_base(self):
+        base = Base(self)
+        self.bases.add(base)
         
 
 
@@ -67,6 +75,14 @@ class Tank_war:
             self.player_tank.moving_up = False
         elif event.key == pygame.K_DOWN:
             self.player_tank.moving_down = False
+    
+    def _update_bullets(self):
+        self.bullets.update()
+        for bullet in self.bullets.copy():
+                if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
+                    self.bullets.remove(bullet)
+                print(len(self.bullets))
+        collisions = pygame.sprite.groupcollide(self.bullets,self.bases,True,False)
 
     def _fire_bullet(self):
         new_bullet = Bullet(self)
@@ -77,7 +93,7 @@ class Tank_war:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
         self.player_tank.blitme()
-        self.base.blitme()
+        self.bases.draw(self.screen)
         pygame.display.flip()
  #====================以上为初始化===================        
 
@@ -87,10 +103,8 @@ class Tank_war:
             self._check_events()
             self.player_tank.update()
             self.bullets.update()
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
-                    self.bullets.remove(bullet)
-                print(len(self.bullets))
+            
+            self._update_bullets()
             self._update_screen()
             self.mouse()
             self.clock.tick(60)

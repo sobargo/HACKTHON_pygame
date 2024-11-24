@@ -1,7 +1,9 @@
 import pygame
 from settings import Settings
-class Base:
+from pygame.sprite import Sprite
+class Base(Sprite):
     def __init__(self,tw_game):
+        super().__init__()
         self.screen = tw_game.screen
         self.settings = tw_game.settings
         self.screen_rect = tw_game.screen.get_rect()
@@ -11,8 +13,4 @@ class Base:
         self.rect = self.image.get_rect()
 
         self.rect.center = self.screen_rect.center
-        self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
-    def blitme(self):
-        self.screen.blit(self.image,self.rect)
-    
+        

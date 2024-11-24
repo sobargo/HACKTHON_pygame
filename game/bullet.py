@@ -1,5 +1,5 @@
 import pygame
-from pygame.sprite import  Sprite
+from pygame.sprite import Sprite
 from pygame import Vector2
 class Bullet(Sprite):
     def __init__(self,tw_game):
@@ -17,6 +17,7 @@ class Bullet(Sprite):
     def update(self):
         self.position+=self.velocity
         self.rect.center = self.position
+        
         
 
     def draw_bullet(self):  
