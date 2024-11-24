@@ -3,6 +3,7 @@ import pygame
 from player_tank import Player_tank
 from settings import Settings
 from base import Base
+from bullet import Bullet
 class Tank_war:
     def __init__(self):
         pygame.init()
@@ -15,6 +16,7 @@ class Tank_war:
         self.background_image = pygame.image.load(r"asset\image\background.jpg")
 
         self.player_tank = Player_tank(self)
+        self.bullets = pygame.sprite.Group()
         
 
 
@@ -27,6 +29,7 @@ class Tank_war:
                 elif event.type == pygame.KEYUP:
                     self._check_keyup_events(event)
 
+
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
             self.player_tank.moving_right = True
@@ -38,6 +41,10 @@ class Tank_war:
             self.player_tank.moving_down = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
+
+        
 
     def mouse(self) -> None:
             mouse_image = pygame.image.load("asset\image\map_Obstacles_png\mouse.png")
@@ -60,10 +67,14 @@ class Tank_war:
         elif event.key == pygame.K_DOWN:
             self.player_tank.moving_down = False
 
-    
+    def _fire_bullet(self):
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
 
     def _update_screen(self):
         self.screen.blit(self.background_image, [0, 0])
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet() 
         self.player_tank.blitme()
         self.base.blitme()
         pygame.display.flip()
@@ -74,6 +85,11 @@ class Tank_war:
         while True:
             self._check_events()
             self.player_tank.update()
+            self.bullets.update()
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
+                    self.bullets.remove(bullet)
+                print(len(self.bullets))
             self._update_screen()
             self.mouse()
             self.clock.tick(60)
