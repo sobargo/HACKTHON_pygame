@@ -4,7 +4,6 @@ from player_tank import Player_tank
 from settings import Settings
 from base import Base
 from bullet import Bullet
-from pygame.sprite import Sprite
 class Tank_war:
     def __init__(self):
         pygame.init()
