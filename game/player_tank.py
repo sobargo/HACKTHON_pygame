@@ -28,24 +28,27 @@ class Player_tank:
         self.angle = 0  # 初始旋转角度为0
 
 
+    def draw1(self):
+        # 旋转图像
+            self.image = pygame.image.load(r'asset\image\map_Obstacles_png\tank1_body_r.png')
+            rotated_image = pygame.transform.rotate(self.image, self.angle)
+            # 获取旋转后的图像的矩形，以中心为旋转点
+            rotated_rect = rotated_image.get_rect(center=self.rect.center)
+            # 绘制旋转后的图像
+            self.screen.blit(rotated_image, rotated_rect.topleft)    
 
     def update(self):
         if self.moving_right and self.rect.right<self.screen_rect.right:
-            self.angle += 0.1
-            self.image = pygame.transform.rotate(self.image, self.angle)
-            self.rect = self.image.get_rect(center=self.rect.center)
+            self.image_center = self.image.get_rect().center
+            self.angle -= 1
         if self.moving_left and self.rect.left>0:
-            self.angle -= 0.1
-            self.image = pygame.transform.rotate(self.image, self.angle)
-            self.rect = self.image.get_rect(center=self.rect.center)
+            self.angle += 1
         if self.moving_down and self.rect.bottom<self.screen_rect.bottom:
-            self.rect.x -= 1.5 * math.cos(math.radians(self.angle))
-            self.rect.y += 1.5 * math.sin(math.radians(self.angle))
+            self.rect.x -= 1.1 * math.cos(math.radians(self.angle))
+            self.rect.y += 1.1 * math.sin(math.radians(self.angle))
         if self.moving_up and self.rect.top>0:
             self.rect.x += 1.5 * math.cos(math.radians(self.angle))
             self.rect.y -= 1.5 * math.sin(math.radians(self.angle))
-        # self.rect.x = self.x
-        # self.rect.y = self.y
         
     def blitme(self):
         self.screen.blit(self.image,self.rect)

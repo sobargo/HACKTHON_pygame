@@ -110,10 +110,11 @@ class Tank_war:
         self.screen.blit(self.background_image, [0, 0])
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
-        self.player_tank.blitme()
         self.enemy_tanks.draw(self.screen)
         self.bases.draw(self.screen)
+        self.player_tank.draw1()
         self.cannon.draw(self.screen,self.player_tank)
+        
         pygame.display.flip()
  #====================以上为初始化===================        
 
