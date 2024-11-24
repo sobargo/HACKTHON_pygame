@@ -28,6 +28,8 @@ class Tank_war:
                     self._check_keydown_events(event)
                 elif event.type == pygame.KEYUP:
                     self._check_keyup_events(event)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self._fire_bullet()
 
 
     def _check_keydown_events(self,event):
@@ -41,8 +43,7 @@ class Tank_war:
             self.player_tank.moving_down = True
         elif event.key == pygame.K_q:
             sys.exit()
-        elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
+        
 
         
 
