@@ -99,7 +99,11 @@ class Tank_war:
             self.collision2_sound.play()
 
     def _fire_bullet(self):
-        new_bullet = Bullet(self)
+        tank_pos_x,tank_pos_y = self.player_tank.rect.center
+        tank_pos = tank_pos_x,tank_pos_y
+        mouse_pos_X,momouse_pos_Y = pygame.mouse.get_pos()
+        mouse_pos = mouse_pos_X,momouse_pos_Y
+        new_bullet = Bullet(self,mouse_pos,tank_pos)
         self.bullets.add(new_bullet)
 
     def _update_screen(self):
