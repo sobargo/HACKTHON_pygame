@@ -24,6 +24,7 @@ class Turret:
     def draw(self, surface,tank_body):
         self.rect.center = tank_body.rect.center
         # 旋转炮塔图像
+        self.image = pygame.image.load(r'asset\image\map_Obstacles_png\cannon.png')
         rotated_image = pygame.transform.rotate(self.image, self.angle)
         # 获取旋转后的图像的矩形，以炮塔中心为旋转点
         rotated_rect = rotated_image.get_rect(center=self.rect.center)
