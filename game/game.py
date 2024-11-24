@@ -27,7 +27,6 @@ class Tank_war:
                 elif event.type == pygame.KEYUP:
                     self._check_keyup_events(event)
 
-
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
             self.player_tank.moving_right = True
