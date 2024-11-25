@@ -7,6 +7,7 @@ from bullet import Bullet
 from pygame.sprite import Sprite
 from cannon import Turret
 from enemy_tank import Enemy_tank 
+from allradios import Mixaudio
 import pygame.mixer
 class Tank_war:
     def __init__(self):
@@ -27,6 +28,7 @@ class Tank_war:
         self._create_base()
         self.cannon = Turret(self,self.player_tank)
         self._create_enemy_tanks()
+        self.audio = Mixaudio()
 
 
 
@@ -62,6 +64,17 @@ class Tank_war:
             self.player_tank.moving_down = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_i:#i键下一首
+            if self.audio.bgm_num ==(len(self.audio.music_lst)-1):
+                self.audio.bgm_num = 0
+            else:
+                self.audio.bgm_num += 1 
+        elif event.key == pygame.K_o: #o键开始播放
+            self.audio.bgm_key = True 
+        elif event.key == pygame.K_p: #p键停止播放
+            self.audio.bgm_key = False
+        elif event.key == pygame.K_l:  #暂定,用l按键测试音效
+            self.audio.sound_cannon_key = True
         
 
         
@@ -128,6 +141,8 @@ class Tank_war:
             self._update_bullets()
             self._update_screen()
             self.mouse()
+            self.audio.music_player()
+            self.audio.sound_player()
             self.clock.tick(60)
 if __name__ == '__main__':
     
