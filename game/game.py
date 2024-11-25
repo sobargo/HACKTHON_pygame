@@ -15,6 +15,7 @@ class Tank_war:
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
+        pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
         self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
         self.clock = pygame.time.Clock()
         self.settings = Settings()
@@ -55,6 +56,9 @@ class Tank_war:
                     self._check_keyup_events(event)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self._fire_bullet()
+                if event.type == pygame.USEREVENT:
+                    self._make_soldier_b()
+                    self._make_soldier_t()
                 
 
 
@@ -80,9 +84,6 @@ class Tank_war:
             self.audio.bgm_key = False
         elif event.key == pygame.K_l:  #暂定,用l按键测试音效
             self.audio.sound_cannon_key = True
-        elif event.key == pygame.K_SPACE:
-            self._make_soldier_b()
-            self._make_soldier_t()
         
 
         
@@ -278,7 +279,7 @@ class Tank_war:
         self.audio.music3 = True
         while True:
             self.audio.music_player()
-            self.background_image = pygame.image.load(r"asset\image\map_Obstacles_png\back.png")
+            self.background_image = pygame.image.load(r"asset\image\map_Obstacles_png\over2.jpg")
             self.game_over1_image = pygame.image.load(r"asset\image\map_Obstacles_png\game_over.png")
             # 获取窗口尺寸
             screen_width, screen_height = self.screen.get_size()
@@ -293,8 +294,8 @@ class Tank_war:
             
             #
             self.screen.blit(self.background_image, [0, 0])
-            self.screen.blit(self.game_over1_image, (center_x,center_y))
-            self.screen.blit(over_text1, (800,700))
+            self.screen.blit(self.game_over1_image, (center_x,center_y+200))
+            self.screen.blit(over_text1, (800,900))
             pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

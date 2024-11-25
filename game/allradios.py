@@ -50,11 +50,11 @@ class  Mixaudio:
             pygame.mixer.Sound.play(self.sound1,loops=0)
             self.sound_cannon_key = False
         
-        elif self.sound_powerup_key == True:
+        if self.sound_powerup_key == True:
             pygame.mixer.Sound.play(self.sound2,loops=0)
             self.sound_powerup_key = False
 
-        elif self.sound_smallExplosion1_key == True:
+        if self.sound_smallExplosion1_key == True:
             pygame.mixer.Sound.play(self.sound3,loops=0)
             self.sound_smallExplosion1_key = False
         
