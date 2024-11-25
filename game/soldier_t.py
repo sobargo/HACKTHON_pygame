@@ -5,7 +5,7 @@ import math
 class Soldier_t(Sprite):
     def __init__(self,tw_game,tank_pos,self_pos):
         super().__init__()
-        self.original_image = pygame.image.load(r"asset\image\map_Obstacles_png\soldier_b.png")
+        self.original_image = pygame.image.load(r"asset\image\map_Obstacles_png\tsoldier_r.png")
         self.image = self.original_image.copy()
         self.screen = tw_game.screen
         self.settings = tw_game.settings
