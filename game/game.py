@@ -32,6 +32,9 @@ class Tank_war:
         self.audio = Mixaudio()
         self.soldier_bs = pygame.sprite.Group()
         self.soldier_ts = pygame.sprite.Group()
+        self.score = 0 #设置初始分数
+        # 设置最大子弹数量
+        self.remaining_bullets = 1000
 
 
 
@@ -113,18 +116,23 @@ class Tank_war:
         collisions1 = pygame.sprite.groupcollide(self.bullets,self.soldier_ts,True,True)
         for bullet,enemies in collisions1.items():
             self.collision2_sound.play()
+            self.score += 1  # 击中敌人时增加分数
                 
         collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
+            self.score += 1  # 击中敌人时增加分数
 
     def _fire_bullet(self):
-        tank_pos_x,tank_pos_y = self.player_tank.rect.center
-        tank_pos = tank_pos_x,tank_pos_y
-        mouse_pos_X,momouse_pos_Y = pygame.mouse.get_pos()
-        mouse_pos = mouse_pos_X,momouse_pos_Y
-        new_bullet = Bullet(self,mouse_pos,tank_pos)
-        self.bullets.add(new_bullet)
+        # 检查当前子弹数量是否超过限制
+        if self.remaining_bullets >0:
+            tank_pos_x,tank_pos_y = self.player_tank.rect.center
+            tank_pos = tank_pos_x,tank_pos_y
+            mouse_pos_X,momouse_pos_Y = pygame.mouse.get_pos()
+            mouse_pos = mouse_pos_X,momouse_pos_Y
+            new_bullet = Bullet(self,mouse_pos,tank_pos)
+            self.bullets.add(new_bullet)
+            self.remaining_bullets -=1 #子弹数减1
 
     def _update_soldier_b(self):
         self.soldier_bs.update()
@@ -183,7 +191,14 @@ class Tank_war:
     def _tank_hit(self):
         pass
 
+    def _draw_score(self):
+        font1 = pygame.font.SysFont("arial", 30)  # 创建字体对象
+        score_text1 = font1.render(f"Score: {self.score}", True, (255, 0, 0)) 
+        self.screen.blit(score_text1, (200,100 ))  # 将分数显示在屏幕的左上角
 
+        # 显示剩余子弹数量
+        bullets_text = font1.render(f"Bullets: {self.remaining_bullets}", True, (0, 255, 0))
+        self.screen.blit(bullets_text, (200, 150))  # 将剩余子弹显示在屏幕上
     
     def _update_screen(self):
         self.screen.blit(self.background_image, [0, 0])
@@ -197,6 +212,9 @@ class Tank_war:
         self.bases.draw(self.screen)
         self.player_tank.draw1()
         self.cannon.draw(self.screen,self.player_tank)
+        self._draw_score()
+
+        
         
         pygame.display.flip()
  #====================以上为初始化===================        
@@ -216,6 +234,7 @@ class Tank_war:
             self.audio.music_player()
             self.audio.sound_player()
             self.clock.tick(60)
+            self._draw_score()
 if __name__ == '__main__':
     
     tw = Tank_war()
