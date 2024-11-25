@@ -1,5 +1,6 @@
 import sys
 import pygame
+import random
 from player_tank import Player_tank
 from settings import Settings
 from base import Base
@@ -8,6 +9,7 @@ from pygame.sprite import Sprite
 from cannon import Turret
 from enemy_tank import Enemy_tank 
 from allradios import Mixaudio
+from soldier_b import Soldier_b
 import pygame.mixer
 class Tank_war:
     def __init__(self):
@@ -29,6 +31,7 @@ class Tank_war:
         self.cannon = Turret(self,self.player_tank)
         self._create_enemy_tanks()
         self.audio = Mixaudio()
+        self.soldier_b = pygame.sprite.Group()
 
 
 
@@ -51,6 +54,7 @@ class Tank_war:
                     self._check_keyup_events(event)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self._fire_bullet()
+                
 
 
     def _check_keydown_events(self,event):
@@ -75,6 +79,8 @@ class Tank_war:
             self.audio.bgm_key = False
         elif event.key == pygame.K_l:  #暂定,用l按键测试音效
             self.audio.sound_cannon_key = True
+        elif event.key == pygame.K_SPACE:
+            self._fire_soldier_b()
         
 
         
@@ -119,10 +125,40 @@ class Tank_war:
         new_bullet = Bullet(self,mouse_pos,tank_pos)
         self.bullets.add(new_bullet)
 
+    def _update_soldier_b(self):
+        self.soldier_b.update()
+        for bullet in self.soldier_b.copy():
+                if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
+                    self.soldier_b.remove(bullet)
+                    print(len(self.soldier_b))
+        collisions2 = pygame.sprite.groupcollide(self.bullets,self.bases,True,True)
+        for soldier,base in collisions2.items():
+            self.collision2_sound.play()
+
+    def _fire_soldier_b(self):
+        type1 = random.randint(1,4)
+        if type1 == 1:
+            x1 = random.randint(0,1920)
+            self_pos = x1,0
+        elif type1 == 2:
+            y1 = random.randint(0,1080)
+            self_pos = 1919,y1
+        elif type1 == 3:
+            x1 = random.randint(0,1920)
+            self_pos = x1,1079
+        elif type1 == 4:
+            y1 = random.randint(0,1080)
+            self_pos = 0,y1
+        new_soldier1 = Soldier_b(self,(960,540),self_pos)
+        self.soldier_b.add(new_soldier1)
+
+    
     def _update_screen(self):
         self.screen.blit(self.background_image, [0, 0])
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
+        for soldier in self.soldier_b.sprites():
+            soldier.draw_soldier()
         self.enemy_tanks.draw(self.screen)
         self.bases.draw(self.screen)
         self.player_tank.draw1()
@@ -139,6 +175,7 @@ class Tank_war:
             self.bullets.update()
             self.cannon.rotate_towards_mouse()
             self._update_bullets()
+            self._update_soldier_b()
             self._update_screen()
             self.mouse()
             self.audio.music_player()

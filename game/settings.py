@@ -9,3 +9,4 @@ class Settings:
         self.bullet_width = 5
         self.bullet_height =5
         self.bullet_color = (60,60,60)
+        self.soldier_speed = 1.0
