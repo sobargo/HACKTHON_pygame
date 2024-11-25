@@ -12,7 +12,7 @@ class Player_tank:
         self.screen = tw_game.screen
         self.settings = tw_game.settings
         self.screen_rect = tw_game.screen.get_rect()
-
+        self.hp = 10
 
         self.image = pygame.image.load(r"asset\image\map_Obstacles_png\tank1_body_r.png")
         #默认车身向上

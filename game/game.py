@@ -39,8 +39,8 @@ class Tank_war:
 
 
     def _create_base(self):
-        base = Base(self)
-        self.bases.add(base)
+        self.base = Base(self)
+        self.bases.add(self.base)
         
     
 
@@ -122,6 +122,7 @@ class Tank_war:
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
+        
 
     def _fire_bullet(self):
         # 检查当前子弹数量是否超过限制
@@ -140,6 +141,12 @@ class Tank_war:
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.soldier_bs.remove(bullet)
                 print(len(self.soldier_bs))
+                #判断碰撞 
+                if pygame.sprite.collide_rect(bullet, self.player_tank):
+                    self.player_tank.hp -= 1
+                    self.audio.sound_smallExplosion1_key = True
+                    self.soldier_bs.remove(bullet)
+                    
     def _update_soldier_t(self):
         tank_pos_x,tank_pos_y = self.player_tank.rect.center
         tank_pos = tank_pos_x,tank_pos_y 
@@ -147,9 +154,12 @@ class Tank_war:
         for bullet in self.soldier_ts.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.soldier_ts.remove(bullet)
+                if pygame.sprite.collide_rect(bullet, self.player_tank):
+                    self.player_tank.hp -= 1
+                    self.audio.sound_smallExplosion1_key = True
+                    self.soldier_ts.remove(bullet)
                 print(len(self.soldier_ts))
-        if pygame.sprite.spritecollideany(self.player_tank,self.soldier_ts):
-            self._tank_hit()
+        
         
 
     def _make_soldier_b(self):
@@ -187,9 +197,11 @@ class Tank_war:
         new_soldier1 = Soldier_t(self,tank_pos,self_pos)
         self.soldier_ts.add(new_soldier1)
     
-
-    def _tank_hit(self):
-        pass
+    #坦克碰撞后调用(废弃)
+    # def _tank_hit(self):
+    #     self.audio.sound_smallExplosion1_key = True
+    #     for bullet in self.soldier_ts.copy():
+    #         self.soldier_ts.remove
 
     def _draw_score(self):
         font1 = pygame.font.SysFont("arial", 30)  # 创建字体对象
@@ -198,10 +210,19 @@ class Tank_war:
 
         # 显示剩余子弹数量
         bullets_text = font1.render(f"Bullets: {self.remaining_bullets}", True, (0, 255, 0))
-        self.screen.blit(bullets_text, (200, 150))  # 将剩余子弹显示在屏幕上
-    
+        self.screen.blit(bullets_text, (200, 125))  # 将剩余子弹显示在屏幕上
+        #tank hp
+        tank_hp_text = font1.render(f"Tank Hp: {self.player_tank.hp}", True, (0, 255, 255))
+        self.screen.blit(tank_hp_text, (200, 75))
+
+        base_hp_text = font1.render(f"Base Hp: {self.base.hp}", True, (255, 255,0))
+        self.screen.blit(base_hp_text, (200, 150))
+
+
+
     def _update_screen(self):
         self.screen.blit(self.background_image, [0, 0])
+        self.bases.draw(self.screen)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
         for soldier in self.soldier_bs.sprites():
@@ -209,7 +230,7 @@ class Tank_war:
         for soldier in self.soldier_ts.sprites():
             soldier.draw_soldier()
         self.enemy_tanks.draw(self.screen)
-        self.bases.draw(self.screen)
+        
         self.player_tank.draw1()
         self.cannon.draw(self.screen,self.player_tank)
         self._draw_score()
@@ -231,6 +252,17 @@ class Tank_war:
             self._update_soldier_t()
             self._update_screen()
             self.mouse()
+            collisions3 = pygame.sprite.groupcollide(self.bases,self.soldier_ts,False,True)
+            for bullet,enemies in collisions3.items():
+                self.collision2_sound.play()
+                self.score-=10
+                self.base.hp -= 1
+            collisions4 = pygame.sprite.groupcollide(self.bases,self.soldier_bs,False,True)
+            for bullet,enemies in collisions4.items():
+                self.collision2_sound.play()
+                self.score-=10
+                self.base.hp -= 1
+            #碰撞检测
             self.audio.music_player()
             self.audio.sound_player()
             self.clock.tick(60)

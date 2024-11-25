@@ -4,6 +4,7 @@ from pygame.sprite import Sprite
 class Base(Sprite):
     def __init__(self,tw_game):
         super().__init__()
+        self.hp = 100
         self.screen = tw_game.screen
         self.settings = tw_game.settings
         self.screen_rect = tw_game.screen.get_rect()
