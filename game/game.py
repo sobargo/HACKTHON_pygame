@@ -110,6 +110,9 @@ class Tank_war:
         for bullet in self.bullets.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets.remove(bullet)
+        collisions1 = pygame.sprite.groupcollide(self.bullets,self.soldier_ts,True,True)
+        for bullet,enemies in collisions1.items():
+            self.collision2_sound.play()
                 
         collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
@@ -137,6 +140,9 @@ class Tank_war:
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.soldier_ts.remove(bullet)
                 print(len(self.soldier_ts))
+        if pygame.sprite.spritecollideany(self.player_tank,self.soldier_ts):
+            self._tank_hit()
+        
 
     def _make_soldier_b(self):
         type1 = random.randint(1,4)
@@ -172,6 +178,10 @@ class Tank_war:
         tank_pos = tank_pos_x,tank_pos_y
         new_soldier1 = Soldier_t(self,tank_pos,self_pos)
         self.soldier_ts.add(new_soldier1)
+    
+
+    def _tank_hit(self):
+        pass
 
 
     
