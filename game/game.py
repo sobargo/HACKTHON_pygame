@@ -138,17 +138,17 @@ class Tank_war:
     def _fire_soldier_b(self):
         type1 = random.randint(1,4)
         if type1 == 1:
-            x1 = random.randint(0,1920)
-            self_pos = x1,0
+            x1 = random.randint(20,1910)
+            self_pos = x1,20
         elif type1 == 2:
-            y1 = random.randint(0,1080)
-            self_pos = 1919,y1
+            y1 = random.randint(20,1060)
+            self_pos = 1900,y1
         elif type1 == 3:
-            x1 = random.randint(0,1920)
-            self_pos = x1,1079
+            x1 = random.randint(20,1900)
+            self_pos = x1,1060
         elif type1 == 4:
-            y1 = random.randint(0,1080)
-            self_pos = 0,y1
+            y1 = random.randint(20,1060)
+            self_pos = 20,y1
         new_soldier1 = Soldier_b(self,(960,540),self_pos)
         self.soldier_b.add(new_soldier1)
 
