@@ -125,6 +125,7 @@ class Tank_war:
         
 
     def _fire_bullet(self):
+        self.audio.sound_cannon_key = True
         # 检查当前子弹数量是否超过限制
         if self.remaining_bullets >0:
             tank_pos_x,tank_pos_y = self.player_tank.rect.center
@@ -238,6 +239,7 @@ class Tank_war:
         
         
         pygame.display.flip()
+    
  #====================以上为初始化===================        
 
 
@@ -267,7 +269,41 @@ class Tank_war:
             self.audio.sound_player()
             self.clock.tick(60)
             self._draw_score()
+            if self.player_tank.hp <= 0 or self.base.hp <= 0:
+                self.audio.bgm_key = False
+                self.audio.music_player()           
+                break
+    
+    def game_over(self):
+        self.audio.music3 = True
+        while True:
+            self.audio.music_player()
+            self.background_image = pygame.image.load(r"asset\image\map_Obstacles_png\back.png")
+            self.game_over1_image = pygame.image.load(r"asset\image\map_Obstacles_png\game_over.png")
+            # 获取窗口尺寸
+            screen_width, screen_height = self.screen.get_size()
+            # 获取图像尺寸
+            image_width, image_height = self.game_over1_image.get_size()
+            # 计算图像的中心位置
+            center_x = (screen_width - image_width) // 2
+            center_y = (screen_height - image_height) // 2
+            #
+            font1 = pygame.font.SysFont("arial", 50)
+            over_text1 = font1.render(f"Any  Key  To  Exit", True, (0, 0, 0)) 
+            
+            #
+            self.screen.blit(self.background_image, [0, 0])
+            self.screen.blit(self.game_over1_image, (center_x,center_y))
+            self.screen.blit(over_text1, (800,700))
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    sys.exit()
+            
 if __name__ == '__main__':
     
     tw = Tank_war()
     tw.run_game()
+    tw.game_over()
