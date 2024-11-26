@@ -38,7 +38,7 @@ class Tank_war:
         self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
-        pygame.display.set_caption("Tank war")
+        pygame.display.set_caption("Tank war") # 设置窗口标题
         self.bases = pygame.sprite.Group() 
 
         self.background_image = pygame.image.load(r"asset\image\background.jpg")
@@ -54,12 +54,12 @@ class Tank_war:
         self._create_base()
         self.cannon = Turret(self,self.player_tank)
         self.audio = Mixaudio()
-        self.soldier_bs = pygame.sprite.Group()
-        self.soldier_ts = pygame.sprite.Group()
+        self.soldier_bs = pygame.sprite.Group() # 自爆小车
+        self.soldier_ts = pygame.sprite.Group() # 自爆步兵
         self.score = 0 #设置初始分数
         # 设置最大子弹数量
-        self.remaining_bullets = 150
-        self.remaining_bullets1 = 10
+        self.remaining_bullets = 150 # 普通子弹
+        self.remaining_bullets1 = 10 # 特殊子弹
 
     def _create_base(self):
         self.base = Base(self)
@@ -67,25 +67,25 @@ class Tank_war:
         
     def _check_events(self):
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT: # 退出游戏
                     sys.exit()
-                elif event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN: # 按键按下事件
                     self._check_keydown_events(event)
                 elif event.type == pygame.KEYUP:
-                    self._check_keyup_events(event)
-                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self._check_keyup_events(event) # 按键释放事件
+                elif event.type == pygame.MOUSEBUTTONDOWN: # 鼠标按下事件
                     if event.button == 1:  # 鼠标左键
-                        self._fire_bullet()
+                        self._fire_bullet() # 发射普通子弹
                         
                         self.left_mouse_pressed = True
                         self.press_start_time = pygame.time.get_ticks()  # 记录按下时间
-                    if event.button == 3:
-                        self._fire_bullet1() 
+                    if event.button == 3: # 鼠标右键
+                        self._fire_bullet1()  # 发射特殊子弹
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:  # 鼠标左键
                         self.audio.sound_machinegun_key = False
                         self.left_mouse_pressed = False 
-                if event.type == pygame.USEREVENT:
+                if event.type == pygame.USEREVENT: # 定时器事件
                     self._make_soldier_b()
                     self._make_soldier_t()
                 if self.left_mouse_pressed:
@@ -93,12 +93,12 @@ class Tank_war:
                     if current_time - self.press_start_time > 0.5:  # 如果持续按下超过500毫秒
                         if (current_time % self.fire_interval) < 15:
                             self._fire_bullet()  # 以fire_interval为周期发射子弹
-                if event.type == self.RANDOM1:
+                if event.type == self.RANDOM1: #随机生成道具
                     a = random.randint(1,2)
                     if a == 1:
-                        self.spawn_sprite1()
+                        self.spawn_sprite1() # 生成弹药
                     if a == 2:
-                        self.spawn_sprite2()
+                        self.spawn_sprite2() # 生成血包
 
 
                             
