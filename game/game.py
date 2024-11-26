@@ -6,7 +6,7 @@ from player_tank import Player_tank
 from settings import Settings
 from base import Base
 from bullet import Bullet
-
+from bullet1 import Bullet1
 from cannon import Turret
 from allradios import Mixaudio
 from soldier_b import Soldier_b
@@ -37,6 +37,7 @@ class Tank_war:
 
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
+        self.bullets1 = pygame.sprite.Group()
         self.enemy_tanks = pygame.sprite.Group()
         self._create_base()
         self.cannon = Turret(self,self.player_tank)
@@ -46,6 +47,7 @@ class Tank_war:
         self.score = 0 #设置初始分数
         # 设置最大子弹数量
         self.remaining_bullets = 150
+        self.remaining_bullets1 = 10
 
     def _create_base(self):
         self.base = Base(self)
@@ -65,6 +67,8 @@ class Tank_war:
                         
                         self.left_mouse_pressed = True
                         self.press_start_time = pygame.time.get_ticks()  # 记录按下时间
+                    if event.button == 3:
+                        self._fire_bullet1() 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:  # 鼠标左键
                         self.audio.sound_machinegun_key = False
@@ -74,8 +78,8 @@ class Tank_war:
                     self._make_soldier_t()
                 if self.left_mouse_pressed:
                     current_time = pygame.time.get_ticks()
-                    if current_time - self.press_start_time > 1:  # 如果持续按下超过500毫秒
-                        if (current_time % self.fire_interval) < 10:
+                    if current_time - self.press_start_time > 0.5:  # 如果持续按下超过500毫秒
+                        if (current_time % self.fire_interval) < 15:
                             self._fire_bullet()  # 以fire_interval为周期发射子弹
                             
     def _check_keydown_events(self,event):
@@ -140,10 +144,24 @@ class Tank_war:
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets+=2
-        
+
+    def _update_bullets1(self):
+        self.bullets1.update()
+        for bullet in self.bullets1.copy():
+                if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
+                    self.bullets1.remove(bullet)
+        collisions1 = pygame.sprite.groupcollide(self.bullets1,self.soldier_ts,True,True)
+        for bullet,enemies in collisions1.items():
+            self.collision2_sound.play()
+            self.score += 1  # 击中敌人时增加分数
+            self.remaining_bullets1+=2
+        collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
+        for bullet,enemies in collisions2.items():
+            self.collision2_sound.play()
+            self.score += 1  # 击中敌人时增加分数
+            self.remaining_bullets+=2    
 
     def _fire_bullet(self):
-        self.audio.sound_machingun_key = True
         # 检查当前子弹数量是否超过限制
         if self.remaining_bullets >0:
             tank_pos_x,tank_pos_y = self.player_tank.rect.center
@@ -155,7 +173,18 @@ class Tank_war:
             self.remaining_bullets -=1 #子弹数减1
             pygame.display.flip()
         
-    
+    def _fire_bullet1(self):
+        self.audio.sound_cannon_key = True
+        # 检查当前子弹数量是否超过限制
+        if self.remaining_bullets1 >0:
+            tank_pos_x,tank_pos_y = self.player_tank.rect.center
+            tank_pos = tank_pos_x,tank_pos_y
+            mouse_pos_X,momouse_pos_Y = pygame.mouse.get_pos()
+            mouse_pos = mouse_pos_X,momouse_pos_Y
+            new_bullet1 = Bullet1(self,mouse_pos,tank_pos)
+            self.bullets.add(new_bullet1)
+            self.remaining_bullets1 -=1 #子弹数减1
+            pygame.display.flip()
 
     def _update_soldier_b(self):
         self.soldier_bs.update()
@@ -231,15 +260,17 @@ class Tank_war:
         self.screen.blit(score_text1, (200,100 ))  # 将分数显示在屏幕的左上角
 
         # 显示剩余子弹数量
-        bullets_text = font1.render(f"Bullets: {self.remaining_bullets}/150", True, (0, 255, 0))
+        bullets_text = font1.render(f"Bullets1: {self.remaining_bullets}/150", True, (0, 255, 0))
         self.screen.blit(bullets_text, (200, 125))  # 将剩余子弹显示在屏幕上
         #tank hp
         tank_hp_text = font1.render(f"Tank Hp: {self.player_tank.hp}", True, (0, 255, 255))
         self.screen.blit(tank_hp_text, (200, 75))
 
         base_hp_text = font1.render(f"Base Hp: {self.base.hp}", True, (255, 255,0))
-        self.screen.blit(base_hp_text, (200, 150))
+        self.screen.blit(base_hp_text, (200, 175))
 
+        bullets2_text = font1.render(f"Bullets2: {self.remaining_bullets1}/10", True, (0, 255, 0))
+        self.screen.blit(bullets2_text, (200, 150))  # 将剩余子弹显示在屏幕上
 
 
     def _update_screen(self):
@@ -247,6 +278,8 @@ class Tank_war:
         self.bases.draw(self.screen)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
+        for bullet in self.bullets1.sprites():
+            bullet.draw_bullet()
         for soldier in self.soldier_bs.sprites():
             soldier.draw_soldier()
         for soldier in self.soldier_ts.sprites():
@@ -269,6 +302,7 @@ class Tank_war:
             self._check_events()
             self.player_tank.update()
             self.bullets.update()
+            self.bullets1.update()
             self.cannon.rotate_towards_mouse()
             self._update_bullets()
             self._update_soldier_b()

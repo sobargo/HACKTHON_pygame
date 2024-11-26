@@ -2,10 +2,10 @@ import pygame
 from pygame.sprite import Sprite
 from pygame import Vector2
 import math
-class Bullet(Sprite):
+class Bullet1(Sprite):
     def __init__(self,tw_game,mouse_pos,tank_pos):
         super().__init__()
-        self.original_image = pygame.image.load(r"asset\image\bullet.png")
+        self.original_image = pygame.image.load(r"asset\image\bullet2.png")
         self.image = self.original_image.copy()
         self.screen = tw_game.screen
         self.settings = tw_game.settings
