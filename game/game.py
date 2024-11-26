@@ -138,12 +138,12 @@ class Tank_war:
                     self.bullets.remove(bullet)
         collisions1 = pygame.sprite.groupcollide(self.bullets,self.soldier_ts,True,True)
         for bullet,enemies in collisions1.items():
-            self.collision2_sound.play()
+            # self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets+=2
             x,y = bullet.rect.centerx,bullet.rect.centery
-            explosion = Explosion(self,x,y)
-            self.explosions.add(explosion)
+            # explosion = Explosion(self,x,y)
+            # self.explosions.add(explosion)
         collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
