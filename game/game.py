@@ -20,7 +20,7 @@ class Tank_war:
     def __init__(self):
         pygame.init()
         #物品刷新定时
-        self.RANDOM1 = pygame.USEREVENT+1
+        self.RANDOM1 = pygame.USEREVENT
         pygame.time.set_timer(self.RANDOM1, 1000)
         # 设置发射频率（每秒发射的子弹数）
         self.fire_rate = 10
@@ -196,6 +196,7 @@ class Tank_war:
          self.explosions.update()
     def _update_digs(self):
         self.digs.update()
+    
     def _update_bullets1(self):
         self.bullets1.update()
         
@@ -244,7 +245,26 @@ class Tank_war:
             new_bullet1 = Bullet1(self,mouse_pos,tank_pos)
             self.bullets.add(new_bullet1)
             self.remaining_bullets1 -=1 #子弹数减1
-            
+    
+
+    def _update_spawn_sprite(self):
+        self.danyaos.update()
+        self.xuebaos.update()
+        
+        for bullet in self.xuebaos.copy():
+                
+                #判断碰撞 
+            if pygame.sprite.collide_rect(bullet, self.player_tank):
+                self.player_tank.hp += 1
+                    
+                self.xuebaos.remove(bullet)
+        for bullet in self.danyaos.copy():
+            if pygame.sprite.collide_rect(bullet,self.player_tank):
+                self.remaining_bullets+=10
+                self.remaining_bullets1+=1
+                self.danyaos.remove(bullet)
+
+        
 
     def _update_soldier_b(self):
         self.soldier_bs.update()
@@ -257,7 +277,7 @@ class Tank_war:
                     self.player_tank.hp -= 1
                     self.audio.sound_smallExplosion1_key = True
                     self.soldier_bs.remove(bullet)
-        collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
+        
         
                     
     def _update_soldier_t(self):
@@ -375,10 +395,12 @@ class Tank_war:
             self.bullets1.update()
             self.cannon.rotate_towards_mouse()
             self._update_bullets()
+            self._update_spawn_sprite()
             self._update_soldier_b()
             self._update_soldier_t()
             self._update_explosion()
             self._update_digs()
+            self._update_spawn_sprite()
             self._update_screen()
             
             
