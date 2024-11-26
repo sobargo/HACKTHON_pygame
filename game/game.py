@@ -11,6 +11,7 @@ from cannon import Turret
 from allradios import Mixaudio
 from soldier_b import Soldier_b
 from soldier_t import Soldier_t
+from explosion import Explosion
 import pygame.mixer
 class Tank_war:
     def __init__(self):
@@ -37,6 +38,7 @@ class Tank_war:
 
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
+        self.explosions = pygame.sprite.Group()
         self.bullets1 = pygame.sprite.Group()
         self.enemy_tanks = pygame.sprite.Group()
         self._create_base()
@@ -139,14 +141,23 @@ class Tank_war:
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets+=2
+            x,y = bullet.rect.centerx,bullet.rect.centery
+            explosion = Explosion(self,x,y)
+            self.explosions.add(explosion)
         collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets+=2
-
+            x,y = bullet.rect.centerx,bullet.rect.centery
+            explosion = Explosion(self,x,y)
+            self.explosions.add(explosion)
+    def _update_explosion(self):
+         dt = 5
+         self.explosions.update(dt)
     def _update_bullets1(self):
         self.bullets1.update()
+        
         for bullet in self.bullets1.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets1.remove(bullet)
@@ -155,11 +166,17 @@ class Tank_war:
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets1+=2
+            x,y = bullet.rect.centerx,bullet.rect.centery
+            explosion = Explosion(self,x,y)
+            self.explosions.add(explosion)
         collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets+=2    
+            self.remaining_bullets+=2
+            x,y = bullet.rect.centerx,bullet.rect.centery
+            explosion = Explosion(self,x,y)
+            self.explosions.add(explosion)    
 
     def _fire_bullet(self):
         # 检查当前子弹数量是否超过限制
@@ -284,6 +301,8 @@ class Tank_war:
             soldier.draw_soldier()
         for soldier in self.soldier_ts.sprites():
             soldier.draw_soldier()
+        for explosion in self.explosions.sprites():
+            explosion.draw_explosion()
         self.enemy_tanks.draw(self.screen)
         
         self.player_tank.draw1()
