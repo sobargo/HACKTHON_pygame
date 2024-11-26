@@ -8,6 +8,7 @@ class  Mixaudio:
         self.sound1 = r'asset\sounds\cannon1.mp3'
         self.sound2 = r'asset\sounds\powerup10.mp3'
         self.sound3 = r'asset\sounds\small_explosion1.mp3'
+        self.sound4 = r"asset\sounds\machingun.wav"      
         #导入音乐音效
         #这里sound1代表cannon1,sound2代表powerup,sound3代表small_explosion1
 
@@ -24,10 +25,12 @@ class  Mixaudio:
         self.sound1 = pygame.mixer.Sound(self.sound1)
         self.sound2 = pygame.mixer.Sound(self.sound2)
         self.sound3 = pygame.mixer.Sound(self.sound3)
+        self.sound4 = pygame.mixer.Sound(self.sound4)
 
         self.sound_cannon_key = False 
         self.sound_powerup_key = False
         self.sound_smallExplosion1_key = False
+        self.sound_machinegun_key = False
         #初始化音效控制
 
     def music_player(self):#音乐控制代码
@@ -57,4 +60,7 @@ class  Mixaudio:
         if self.sound_smallExplosion1_key == True:
             pygame.mixer.Sound.play(self.sound3,loops=0)
             self.sound_smallExplosion1_key = False
+        if self.sound_machinegun_key == True:
+            pygame.mixer.Sound.play(self.sound4,loops=0)
+            self.sound_machingun_key = False
         
