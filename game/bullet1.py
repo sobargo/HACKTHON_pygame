@@ -1,3 +1,8 @@
+'''
+特殊子弹
+    同子弹
+'''
+
 import pygame
 from pygame.sprite import Sprite
 from pygame import Vector2
@@ -10,14 +15,14 @@ class Bullet1(Sprite):
         self.screen = tw_game.screen
         self.settings = tw_game.settings
         self.rect = self.image.get_rect(center=tank_pos)
-        self.rect.center = tw_game.player_tank.rect.center
+        self.rect.center = tw_game.player_tank.rect.center  #位置
         direction_vector = Vector2(mouse_pos) - Vector2(tank_pos)
-        self.angle = direction_vector.angle_to(Vector2(0, -1))
-        self.velocity = direction_vector.normalize() * self.settings.bullet_speed
+        self.angle = direction_vector.angle_to(Vector2(0, -1))  #方向
+        self.velocity = direction_vector.normalize() * self.settings.bullet_speed 
         self.position = Vector2(tank_pos)
         self.image = self.original_image
     def update(self):
-        
+        #发射
         self.position+=self.velocity
         self.rect.center = self.position
         self.rotate_image()

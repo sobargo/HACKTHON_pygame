@@ -1,3 +1,8 @@
+'''
+车体模块:
+    实现了坦克车体的移动
+    箭头上下左右移动,
+'''
 import pygame
 import math
 from settings import Settings
@@ -37,7 +42,8 @@ class Player_tank:
             # 绘制旋转后的图像
             self.screen.blit(rotated_image, rotated_rect.topleft)    
 
-    def update(self):
+    def update(self): 
+        #坦克移动
         if self.moving_right and self.rect.right<self.screen_rect.right:
             self.image_center = self.image.get_rect().center
             self.angle -= 1

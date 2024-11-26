@@ -1,4 +1,7 @@
-
+'''
+特效模块:
+    处理特效图像
+'''
 import pygame
 class Explosion(pygame.sprite.Sprite):
     def __init__(self,tw_game, x, y):

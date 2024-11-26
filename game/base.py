@@ -1,3 +1,7 @@
+'''
+基地模块:
+    此文件主要处理基地相关内容
+'''
 import pygame
 from settings import Settings
 from pygame.sprite import Sprite
@@ -13,5 +17,5 @@ class Base(Sprite):
         self.image = pygame.image.load(r"asset\image\map_Obstacles_png\temp_base.png")
         self.rect = self.image.get_rect()
 
-        self.rect.center = self.screen_rect.center
+        self.rect.center = self.screen_rect.center #基地置中
         

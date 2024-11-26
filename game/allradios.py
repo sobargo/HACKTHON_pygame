@@ -1,3 +1,7 @@
+'''
+音频模块:
+    此模块主要使用了pygame的mixer方法,调用Mixaudio类可以实现对音频的控制
+'''
 import pygame
 class  Mixaudio:
     def  __init__(self) -> None:
@@ -33,7 +37,10 @@ class  Mixaudio:
         self.sound_machinegun_key = False
         #初始化音效控制
 
-    def music_player(self):#音乐控制代码
+    def music_player(self):
+        '''
+        音乐控制代码
+        '''
 
         if (self.bgm_key == True) and (not pygame.mixer.music.get_busy()):
             pygame.mixer.music.load(self.music_lst[self.bgm_num])
@@ -48,7 +55,10 @@ class  Mixaudio:
             self.bgm_num_temp = self.bgm_num
             #切换并重新开始播放新音乐
 
-    def sound_player(self):#音效控制代码
+    def sound_player(self):
+        '''
+        音效控制代码
+        '''
         if self.sound_cannon_key == True:
             pygame.mixer.Sound.play(self.sound1,loops=0)
             self.sound_cannon_key = False

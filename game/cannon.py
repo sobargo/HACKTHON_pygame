@@ -1,3 +1,7 @@
+'''
+炮塔模块:
+    炮塔始终指向鼠标
+'''
 import pygame
 import math
 
@@ -9,7 +13,7 @@ class Turret:
         self.screen_rect = tw_game.screen.get_rect()
         self.image = pygame.image.load(r'asset\image\map_Obstacles_png\cannon.png')
         self.rect = self.image.get_rect()
-        self.rect.center = tank_body.rect.center
+        self.rect.center = tank_body.rect.center #炮塔在坦克中心
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
         self.angle = 0  # 炮塔的旋转角度

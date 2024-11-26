@@ -1,3 +1,9 @@
+'''
+坦克大战:
+    本项目致力于完成一个坦克大战小游戏,其灵感来源于<<坦克动荡>>,<<坦克大战>>,<<抢滩登陆>>.
+    本项目使用的语言是python,以pygame为基础,使用对象化
+'''
+
 import sys
 import pygame
 import random
