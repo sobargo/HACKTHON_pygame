@@ -14,6 +14,7 @@ from soldier_t import Soldier_t
 from explosion import Explosion
 from danyao import Danyao
 from xuebao import Xuebao
+from dig import Dig
 import pygame.mixer
 class Tank_war:
     def __init__(self):
@@ -45,6 +46,7 @@ class Tank_war:
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
+        self.digs = pygame.sprite.Group()
         self.bullets1 = pygame.sprite.Group()
         self.enemy_tanks = pygame.sprite.Group()
         self.danyaos = pygame.sprite.Group()
@@ -172,15 +174,14 @@ class Tank_war:
         for bullet in self.bullets.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets.remove(bullet)
-        collisions1 = pygame.sprite.groupcollide(self.bullets,self.soldier_ts,True,True)
+        collisions1 = pygame.sprite.groupcollide(self.soldier_ts,self.bullets,True,True)
         for bullet,enemies in collisions1.items():
-            # self.collision2_sound.play()
+            self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets+=2
-            x,y = bullet.rect.centerx,bullet.rect.centery
-            # explosion = Explosion(self,x,y)
-            # self.explosions.add(explosion)
-        collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
+            self.remaining_bullets+=1
+            
+            
+        collisions2 = pygame.sprite.groupcollide(self.soldier_bs,self.bullets,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
@@ -188,36 +189,37 @@ class Tank_war:
             x,y = bullet.rect.centerx,bullet.rect.centery
             explosion = Explosion(self,x,y)
             self.explosions.add(explosion)
+            dig = Dig(self, x, y)
+            self.digs.add(dig)
     def _update_explosion(self):
-         dt = 5
-         self.explosions.update(dt)
+         
+         self.explosions.update()
+    def _update_digs(self):
+        self.digs.update()
     def _update_bullets1(self):
         self.bullets1.update()
         
         for bullet in self.bullets1.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets1.remove(bullet)
-        collisions1 = pygame.sprite.groupcollide(self.bullets1,self.soldier_ts,True,True)
-        for bullet,enemies in collisions1.items():
-            self.collision2_sound.play()
-            bullet.image = pygame.image.load(r"asset\image\map_Obstacles_png\dig.png")
-            bullet.rect = bullet.image.get_rect()
-            if pygame.sprite.collide_rect(bullet,self.soldier_ts):
-                pass
+        # collisions1 = pygame.sprite.groupcollide(self.bullets1,self.soldier_ts,True,True)
+        # for bullet,enemies in collisions1.items():
+        #     self.collision2_sound.play()
 
-            self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets1+=2
-            x,y = bullet.rect.centerx,bullet.rect.centery
-            explosion = Explosion(self,x,y)
-            self.explosions.add(explosion)
-        collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
-        for bullet,enemies in collisions2.items():
-            self.collision2_sound.play()
-            self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets+=2
-            x,y = bullet.rect.centerx,bullet.rect.centery
-            explosion = Explosion(self,x,y)
-            self.explosions.add(explosion)    
+
+        #     self.score += 1  # 击中敌人时增加分数
+        #     self.remaining_bullets1+=2
+        #     x, y = bullet.rect.centerx, bullet.rect.centery
+        #     dig = Explosion(self, x, y)
+        #     self.digs.add(dig)
+        # collisions2 = pygame.sprite.groupcollide(self.bullets1,self.soldier_bs,True,True)
+        # for bullet,enemies in collisions2.items():
+        #     self.collision2_sound.play()
+        #     self.score += 1  # 击中敌人时增加分数
+        #     self.remaining_bullets+=2
+        #     x, y = bullet.rect.centerx, bullet.rect.centery
+        #     dig = Explosion(self, x, y)
+        #     self.digs.add(dig)   
 
     def _fire_bullet(self):
         # 检查当前子弹数量是否超过限制
@@ -229,7 +231,7 @@ class Tank_war:
             new_bullet = Bullet(self,mouse_pos,tank_pos)
             self.bullets.add(new_bullet)
             self.remaining_bullets -=1 #子弹数减1
-            pygame.display.flip()
+            
         
     def _fire_bullet1(self):
         self.audio.sound_cannon_key = True
@@ -242,19 +244,21 @@ class Tank_war:
             new_bullet1 = Bullet1(self,mouse_pos,tank_pos)
             self.bullets.add(new_bullet1)
             self.remaining_bullets1 -=1 #子弹数减1
-            pygame.display.flip()
+            
 
     def _update_soldier_b(self):
         self.soldier_bs.update()
         for bullet in self.soldier_bs.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.soldier_bs.remove(bullet)
-                print(len(self.soldier_bs))
+                
                 #判断碰撞 
                 if pygame.sprite.collide_rect(bullet, self.player_tank):
                     self.player_tank.hp -= 1
                     self.audio.sound_smallExplosion1_key = True
                     self.soldier_bs.remove(bullet)
+        collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
+        
                     
     def _update_soldier_t(self):
         tank_pos_x,tank_pos_y = self.player_tank.rect.center
@@ -267,7 +271,8 @@ class Tank_war:
                     self.player_tank.hp -= 1
                     self.audio.sound_smallExplosion1_key = True
                     self.soldier_ts.remove(bullet)
-                print(len(self.soldier_ts))
+        
+                
         
 
 
@@ -349,6 +354,9 @@ class Tank_war:
             danyao.draw_danyao()
         for xuebao in self.xuebaos.sprites():
             xuebao.draw_xuebao()
+        for dig in self.digs.sprites():
+            dig.draw_dig()
+        
         
         self.enemy_tanks.draw(self.screen)
         self.player_tank.draw1()
@@ -369,8 +377,11 @@ class Tank_war:
             self._update_bullets()
             self._update_soldier_b()
             self._update_soldier_t()
-            self._update_screen()
             self._update_explosion()
+            self._update_digs()
+            self._update_screen()
+            
+            
             self.mouse()
             collisions3 = pygame.sprite.groupcollide(self.bases,self.soldier_ts,False,True)
             for bullet,enemies in collisions3.items():

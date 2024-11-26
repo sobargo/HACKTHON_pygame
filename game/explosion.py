@@ -15,8 +15,8 @@ class Explosion(pygame.sprite.Sprite):
         self.lifespan = 100  # 特效持续时间（帧数）
         self.age = 0
  
-    def update(self, dt):
-        self.age += dt
+    def update(self):
+        self.age += 5
         if self.age <= self.lifespan:
             #self.image = self.images[self.frame]
             #self.frame = (self.frame + 1) % (self.max_frame + 1)  # 循环播放动画
