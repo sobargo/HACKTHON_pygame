@@ -189,6 +189,9 @@ class Tank_war:
             x,y = bullet.rect.centerx,bullet.rect.centery
             explosion = Explosion(self,x,y)
             self.explosions.add(explosion)
+            collision10 = pygame.sprite.groupcollide(self.explosions,self.soldier_bs,False,True)
+            collision11 = pygame.sprite.groupcollide(self.explosions,self.soldier_ts,False,True)
+            
             dig = Dig(self, x, y)
             self.digs.add(dig)
     def _update_explosion(self):
