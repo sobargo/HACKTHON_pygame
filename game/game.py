@@ -111,7 +111,7 @@ class Tank_war:
             self.player_tank.moving_up = True
         elif event.key == pygame.K_DOWN:
             self.player_tank.moving_down = True
-        elif event.key == pygame.K_q:
+        elif event.key == pygame.K_q: # q退出游戏
             sys.exit()
         elif event.key == pygame.K_i:#i键下一首
             if self.audio.bgm_num ==(len(self.audio.music_lst)-1):
@@ -170,23 +170,26 @@ class Tank_war:
     def _update_bullets(self):
         self.bullets.update()
         for bullet in self.bullets.copy():
+                # 子弹超出屏幕则删除
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets.remove(bullet)
-        collisions1 = pygame.sprite.groupcollide(self.soldier_ts,self.bullets,True,True)
+        collisions1 = pygame.sprite.groupcollide(self.soldier_ts,self.bullets,True,True) # 检查子弹与敌人t碰撞
         for bullet,enemies in collisions1.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets+=1
+            self.remaining_bullets+=1 # 回收击中敌人的子弹
             
             
-        collisions2 = pygame.sprite.groupcollide(self.soldier_bs,self.bullets,True,True)
+        collisions2 = pygame.sprite.groupcollide(self.soldier_bs,self.bullets,True,True) # 检查子弹与敌人b碰撞
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets+=2
-            x,y = bullet.rect.centerx,bullet.rect.centery
+            self.remaining_bullets+=2  # 回收击中敌人的子弹
+            # 爆炸效果
+            x,y = bullet.rect.centerx,bullet.rect.centery # 爆炸效果
             explosion = Explosion(self,x,y)
             self.explosions.add(explosion)
+            # 坑洞效果
             dig = Dig(self, x, y)
             self.digs.add(dig)
     def _update_explosion(self):
@@ -220,7 +223,7 @@ class Tank_war:
         #     dig = Explosion(self, x, y)
         #     self.digs.add(dig)   
 
-    def _fire_bullet(self):
+    def _fire_bullet(self): # 普通子弹
         # 检查当前子弹数量是否超过限制
         if self.remaining_bullets >0:
             tank_pos_x,tank_pos_y = self.player_tank.rect.center
@@ -232,7 +235,7 @@ class Tank_war:
             self.remaining_bullets -=1 #子弹数减1
             
         
-    def _fire_bullet1(self):
+    def _fire_bullet1(self): # 特殊子弹
         self.audio.sound_cannon_key = True
         # 检查当前子弹数量是否超过限制
         if self.remaining_bullets1 >0:
@@ -264,7 +267,7 @@ class Tank_war:
 
         
 
-    def _update_soldier_b(self):
+    def _update_soldier_b(self): # 自爆小车
         self.soldier_bs.update()
         for bullet in self.soldier_bs.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
@@ -278,7 +281,7 @@ class Tank_war:
         
         
                     
-    def _update_soldier_t(self):
+    def _update_soldier_t(self): # 自爆步兵
         tank_pos_x,tank_pos_y = self.player_tank.rect.center
         tank_pos = tank_pos_x,tank_pos_y 
         self.soldier_ts.update(tank_pos)
