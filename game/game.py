@@ -327,6 +327,7 @@ class Tank_war:
             self._update_soldier_b()
             self._update_soldier_t()
             self._update_screen()
+            self._update_explosion()
             self.mouse()
             collisions3 = pygame.sprite.groupcollide(self.bases,self.soldier_ts,False,True)
             for bullet,enemies in collisions3.items():
