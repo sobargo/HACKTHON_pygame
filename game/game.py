@@ -23,7 +23,7 @@ class Tank_war:
         self.left_mouse_pressed = False
         self.press_start_time = 0
 
-
+        self.flag_1 = 0
         pygame.init()
         pygame.mixer.init()
         pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
@@ -164,6 +164,11 @@ class Tank_war:
         collisions1 = pygame.sprite.groupcollide(self.bullets1,self.soldier_ts,True,True)
         for bullet,enemies in collisions1.items():
             self.collision2_sound.play()
+            bullet.image = pygame.image.load(r"asset\image\map_Obstacles_png\dig.png")
+            bullet.rect = bullet.image.get_rect()
+            if pygame.sprite.collide_rect(bullet,self.soldier_ts):
+                pass
+
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets1+=2
             x,y = bullet.rect.centerx,bullet.rect.centery
