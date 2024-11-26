@@ -193,7 +193,7 @@ class Tank_war:
             new_bullet = Bullet(self,mouse_pos,tank_pos)
             self.bullets.add(new_bullet)
             self.remaining_bullets -=1 #子弹数减1
-            pygame.display.flip()
+            
         
     def _fire_bullet1(self):
         self.audio.sound_cannon_key = True
@@ -206,14 +206,14 @@ class Tank_war:
             new_bullet1 = Bullet1(self,mouse_pos,tank_pos)
             self.bullets.add(new_bullet1)
             self.remaining_bullets1 -=1 #子弹数减1
-            pygame.display.flip()
+            
 
     def _update_soldier_b(self):
         self.soldier_bs.update()
         for bullet in self.soldier_bs.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.soldier_bs.remove(bullet)
-                print(len(self.soldier_bs))
+                
                 #判断碰撞 
                 if pygame.sprite.collide_rect(bullet, self.player_tank):
                     self.player_tank.hp -= 1
@@ -231,7 +231,7 @@ class Tank_war:
                     self.player_tank.hp -= 1
                     self.audio.sound_smallExplosion1_key = True
                     self.soldier_ts.remove(bullet)
-                print(len(self.soldier_ts))
+                
         
         
 
@@ -308,7 +308,7 @@ class Tank_war:
             soldier.draw_soldier()
         for explosion in self.explosions.sprites():
             explosion.draw_explosion()
-        self.enemy_tanks.draw(self.screen)
+        
         
         self.player_tank.draw1()
         self.cannon.draw(self.screen,self.player_tank)
