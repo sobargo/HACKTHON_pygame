@@ -133,7 +133,7 @@ class Tank_war:
         new_sprite = Danyao(self,self_pos)
         self.danyaos.add(new_sprite)
         
-        
+        pygame.display.flip()
 
 
     def spawn_sprite2(self):
@@ -144,7 +144,8 @@ class Tank_war:
         new_sprite = Xuebao(self,self_pos)
         self.xuebaos.add(new_sprite)
         
-        
+        pygame.display.flip()
+   
         
 
     def mouse(self) -> None:
@@ -155,7 +156,8 @@ class Tank_war:
             y -=mouse_image.get_height()/2
             #tu pian wei zhi
             self.screen.blit(mouse_image,(x,y))
-            
+            pygame.display.flip()
+
 
     def _check_keyup_events(self,event):
         if event.key == pygame.K_RIGHT:
@@ -361,13 +363,6 @@ class Tank_war:
         
         self.screen.blit(self.background_image, [0, 0])
         self.bases.draw(self.screen)
-        
-        for dig in self.digs.sprites():
-            dig.draw_dig()
-        for danyao in self.danyaos.sprites():
-            danyao.draw_danyao()
-        for xuebao in self.xuebaos.sprites():
-            xuebao.draw_xuebao()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet() 
         for bullet in self.bullets1.sprites():
@@ -378,9 +373,12 @@ class Tank_war:
             soldier.draw_soldier()
         for explosion in self.explosions.sprites():
             explosion.draw_explosion()
-        
-        
-        
+        for danyao in self.danyaos.sprites():
+            danyao.draw_danyao()
+        for xuebao in self.xuebaos.sprites():
+            xuebao.draw_xuebao()
+        for dig in self.digs.sprites():
+            dig.draw_dig()
         
         
         self.enemy_tanks.draw(self.screen)
@@ -400,13 +398,12 @@ class Tank_war:
             self.bullets1.update()
             self.cannon.rotate_towards_mouse()
             self._update_bullets()
-            self._update_digs()
             self._update_spawn_sprite()
             self._update_soldier_b()
             self._update_soldier_t()
             self._update_explosion()
-            
-            
+            self._update_digs()
+            self._update_spawn_sprite()
             self._update_screen()
             
             
