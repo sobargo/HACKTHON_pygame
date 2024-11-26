@@ -142,7 +142,7 @@ class Tank_war:
         for bullet,enemies in collisions1.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
-            self.remaining_bullets+=2
+            self.remaining_bullets+=1
             
             
         collisions2 = pygame.sprite.groupcollide(self.soldier_bs,self.bullets,True,True)
