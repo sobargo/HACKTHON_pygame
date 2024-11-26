@@ -12,9 +12,15 @@ from allradios import Mixaudio
 from soldier_b import Soldier_b
 from soldier_t import Soldier_t
 from explosion import Explosion
+from danyao import Danyao
+from xuebao import Xuebao
 import pygame.mixer
 class Tank_war:
     def __init__(self):
+        pygame.init()
+        #物品刷新定时
+        self.RANDOM1 = pygame.USEREVENT+1
+        pygame.time.set_timer(self.RANDOM1, 1000)
         # 设置发射频率（每秒发射的子弹数）
         self.fire_rate = 10
         self.fire_interval = 1000 // self.fire_rate
@@ -24,7 +30,7 @@ class Tank_war:
         self.press_start_time = 0
 
         self.flag_1 = 0
-        pygame.init()
+        
         pygame.mixer.init()
         pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
         self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
@@ -41,6 +47,8 @@ class Tank_war:
         self.explosions = pygame.sprite.Group()
         self.bullets1 = pygame.sprite.Group()
         self.enemy_tanks = pygame.sprite.Group()
+        self.danyaos = pygame.sprite.Group()
+        self.xuebaos = pygame.sprite.Group()
         self._create_base()
         self.cannon = Turret(self,self.player_tank)
         self.audio = Mixaudio()
@@ -83,6 +91,14 @@ class Tank_war:
                     if current_time - self.press_start_time > 0.5:  # 如果持续按下超过500毫秒
                         if (current_time % self.fire_interval) < 15:
                             self._fire_bullet()  # 以fire_interval为周期发射子弹
+                if event.type == self.RANDOM1:
+                    a = random.randint(1,2)
+                    if a == 1:
+                        self.spawn_sprite1()
+                    if a == 2:
+                        self.spawn_sprite2()
+
+
                             
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
@@ -107,7 +123,27 @@ class Tank_war:
         elif event.key == pygame.K_l:  #暂定,用l按键测试音效
             self.audio.sound_cannon_key = True
         
+    def spawn_sprite1(self):
+        # 随机位置
+        x = random.randint(30, 1890)
+        y = random.randint(30, 1050)
+        self_pos =(x,y)
+        new_sprite = Danyao(self,self_pos)
+        self.danyaos.add(new_sprite)
+        
+        pygame.display.flip()
 
+
+    def spawn_sprite2(self):
+        # 随机位置
+        x = random.randint(30, 1890)
+        y = random.randint(30, 1050)
+        self_pos =(x,y)
+        new_sprite = Xuebao(self,self_pos)
+        self.xuebaos.add(new_sprite)
+        
+        pygame.display.flip()
+   
         
 
     def mouse(self) -> None:
@@ -233,7 +269,7 @@ class Tank_war:
                     self.soldier_ts.remove(bullet)
                 print(len(self.soldier_ts))
         
-        
+
 
     def _make_soldier_b(self):
         type1 = random.randint(1,4)
@@ -296,6 +332,7 @@ class Tank_war:
 
 
     def _update_screen(self):
+        
         self.screen.blit(self.background_image, [0, 0])
         self.bases.draw(self.screen)
         for bullet in self.bullets.sprites():
@@ -308,14 +345,15 @@ class Tank_war:
             soldier.draw_soldier()
         for explosion in self.explosions.sprites():
             explosion.draw_explosion()
-        self.enemy_tanks.draw(self.screen)
+        for danyao in self.danyaos.sprites():
+            danyao.draw_danyao()
+        for xuebao in self.xuebaos.sprites():
+            xuebao.draw_xuebao()
         
+        self.enemy_tanks.draw(self.screen)
         self.player_tank.draw1()
         self.cannon.draw(self.screen,self.player_tank)
         self._draw_score()
-
-        
-        
         pygame.display.flip()
     
  #====================以上为初始化===================        
