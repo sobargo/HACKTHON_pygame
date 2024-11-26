@@ -118,11 +118,12 @@ class Tank_war:
         for bullet,enemies in collisions1.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
-                
+            self.remaining_bullets+=2
         collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
+            self.remaining_bullets+=2
         
 
     def _fire_bullet(self):
@@ -260,11 +261,13 @@ class Tank_war:
                 self.collision2_sound.play()
                 self.score-=10
                 self.base.hp -= 1
+                
             collisions4 = pygame.sprite.groupcollide(self.bases,self.soldier_bs,False,True)
             for bullet,enemies in collisions4.items():
                 self.collision2_sound.play()
                 self.score-=10
                 self.base.hp -= 1
+                
             #碰撞检测
             self.audio.music_player()
             self.audio.sound_player()
@@ -304,11 +307,13 @@ class Tank_war:
             center_y = (screen_height - image_height) // 2
             #
             font1 = pygame.font.SysFont("arial", 50)
-            over_text1 = font1.render(f"Any  Key  To  Exit", True, (0, 0, 0)) 
+            over_text1 = font1.render(f"Any  Key  To  Exit", True, (0, 0, 0))
+            over_text2 = font1.render(f"YOUR SCORE IS {self.score}", True, (0, 0, 0)) 
             
             #
             self.screen.blit(self.background_image, [0, 0])
             self.screen.blit(self.game_over1_image, (center_x,center_y+200))
+            self.screen.blit(over_text2,(800,100))
             self.screen.blit(over_text1, (800,900))
             pygame.display.flip()
             for event in pygame.event.get():
