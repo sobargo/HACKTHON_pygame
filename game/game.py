@@ -274,7 +274,21 @@ class Tank_war:
                 self.audio.bgm_key = False
                 self.audio.music_player()           
                 break
-    
+    def game_start(self):
+        
+        running = True
+        while running:
+            self.audio.music_player()
+            self.start_image = pygame.image.load(r"asset\image\30.png")
+            self.screen.blit(self.start_image, [0, 0])
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    running = False
+        
+        
+
+
     def game_over(self):
         self.audio.music3 = True
         while True:
@@ -306,5 +320,6 @@ class Tank_war:
 if __name__ == '__main__':
     
     tw = Tank_war()
+    tw.game_start()
     tw.run_game()
     tw.game_over()
