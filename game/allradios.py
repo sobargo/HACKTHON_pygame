@@ -4,7 +4,10 @@ class  Mixaudio:
         self.music1 = r'asset\music\BLUE DRAGON_小林.mp3'
         self.music2 = r'asset\music\BLUE DRAGON_泽野.mp3'
         self.music3 = r'asset\music\Matryoshka - Sacred Play Secret Place.mp3'
+<<<<<<< HEAD
         self.music4 = r"asset\music\yuanshen.mp3"
+=======
+>>>>>>> parent of 464526b (奥数魔刃更新)
 
         self.sound1 = r'asset\sounds\cannon1.mp3'
         self.sound2 = r'asset\sounds\powerup10.mp3'
