@@ -33,15 +33,12 @@ class Tank_war:
         self.flag_1 = 0
         
         pygame.mixer.init()
-<<<<<<< HEAD
+
  
         pygame.time.set_timer(pygame.USEREVENT, 1500)#刷怪频率1000ms
-=======
+
         pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
-<<<<<<< HEAD
->>>>>>> parent of 464526b (奥数魔刃更新)
-=======
->>>>>>> parent of 464526b (奥数魔刃更新)
+
         self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
         self.clock = pygame.time.Clock()
         self.settings = Settings()
@@ -401,17 +398,11 @@ class Tank_war:
 
 
     def run_game(self):
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         
         self.audio.bgm_num = 0
         self.audio.bgm_key = True
         while True: 
-=======
-=======
->>>>>>> parent of 464526b (奥数魔刃更新)
-        while True:
->>>>>>> parent of 464526b (奥数魔刃更新)
             self._check_events()
             self.player_tank.update()
             self.bullets.update()
