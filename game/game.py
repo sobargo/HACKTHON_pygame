@@ -38,7 +38,6 @@ class Tank_war:
         pygame.time.set_timer(pygame.USEREVENT, 1500)#刷怪频率1000ms
 
         pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
-
         self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
         self.clock = pygame.time.Clock()
         self.settings = Settings()
@@ -398,11 +397,7 @@ class Tank_war:
 
 
     def run_game(self):
-
-        
-        self.audio.bgm_num = 0
-        self.audio.bgm_key = True
-        while True: 
+        while True:
             self._check_events()
             self.player_tank.update()
             self.bullets.update()
