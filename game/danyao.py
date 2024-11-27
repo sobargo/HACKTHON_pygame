@@ -1,19 +1,12 @@
 import pygame
-from pygame.sprite import Sprite
-class Danyao(Sprite):
-    def __init__(self,tw_game,self_pos):
+import sys
+import random
+class Danyao(pygame.sprite.Sprite):
+    def __init__(self, image, position):
         super().__init__()
-        self.original_image = pygame.image.load(r"asset\image\map_Obstacles_png\danyao.png")
-        self.image = self.original_image.copy()
-        self.screen = tw_game.screen
-        self.settings = tw_game.settings
-        self.rect = self.image.get_rect(center=self_pos)
-        self.lifespan = 500
-        self.age = 0
-    def draw_danyao(self):  
-        self.screen.blit(self.image,self.rect.topleft)
-
-    def update(self):
-        self.age += 0.5
-        if self.age >= self.lifespan:
-            self.kill()
+        self.image = image
+        self.rect = self.image.get_rect(topleft=position)
+    
+    def _update_danyao():
+        danyao = Danyao(sprite_image, (random.randint(0, 800 - sprite_image.get_width()), random.randint(0, 600 - sprite_image.get_height())))
+            sprite_group.add(new_sprite)

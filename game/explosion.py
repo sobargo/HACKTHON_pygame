@@ -1,4 +1,7 @@
-
+'''
+特效模块:
+    处理特效图像
+'''
 import pygame
 class Explosion(pygame.sprite.Sprite):
     def __init__(self,tw_game, x, y):
@@ -15,8 +18,8 @@ class Explosion(pygame.sprite.Sprite):
         self.lifespan = 100  # 特效持续时间（帧数）
         self.age = 0
  
-    def update(self):
-        self.age += 5
+    def update(self, dt):
+        self.age += dt
         if self.age <= self.lifespan:
             #self.image = self.images[self.frame]
             #self.frame = (self.frame + 1) % (self.max_frame + 1)  # 循环播放动画

@@ -1,3 +1,7 @@
+'''
+磁暴步兵:
+    专门克制玩家坦克,全程指向玩家坦克
+'''
 import pygame
 from pygame.sprite import Sprite
 from pygame import Vector2
@@ -10,12 +14,13 @@ class Soldier_t(Sprite):
         self.screen = tw_game.screen
         self.settings = tw_game.settings
         self.rect = self.image.get_rect(center=self_pos)
-        
+        #从屏幕边缘出现,指向玩家坦克
         self.position = Vector2(self_pos)
         self.tank_pos = Vector2(tank_pos)
         self.rect.center = self.position
         self.image = self.original_image
     def update(self,tank_pos):
+        #用于更新位置
         self.tank_pos = Vector2(tank_pos)
         direction_vector = self.tank_pos - self.position
         self.angle = direction_vector.angle_to(Vector2(0, -1))
