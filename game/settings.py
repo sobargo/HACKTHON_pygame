@@ -5,6 +5,8 @@ class Settings:
         self.screen_width = 1920
         self.screen_height = 1080
         self.bullet_speed = 2.0
+        self.bullet1_speed = 5.0
+        
         self.bullets_allowed = 3
         self.bullet_width = 5
         self.bullet_height =5

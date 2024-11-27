@@ -40,15 +40,15 @@ class Player_tank:
     def update(self):
         if self.moving_right and self.rect.right<self.screen_rect.right:
             self.image_center = self.image.get_rect().center
-            self.angle -= 1
+            self.angle -= 2
         if self.moving_left and self.rect.left>0:
-            self.angle += 1
+            self.angle += 2
         if self.moving_down and self.rect.bottom<self.screen_rect.bottom:
-            self.rect.x -= 1.1 * math.cos(math.radians(self.angle))
-            self.rect.y += 1.1 * math.sin(math.radians(self.angle))
+            self.rect.x -= 2.1 * math.cos(math.radians(self.angle))
+            self.rect.y += 2.1 * math.sin(math.radians(self.angle))
         if self.moving_up and self.rect.top>0:
-            self.rect.x += 1.5 * math.cos(math.radians(self.angle))
-            self.rect.y -= 1.5 * math.sin(math.radians(self.angle))
+            self.rect.x += 2.5 * math.cos(math.radians(self.angle))
+            self.rect.y -= 2.5 * math.sin(math.radians(self.angle))
         
     def blitme(self):
         self.screen.blit(self.image,self.rect)

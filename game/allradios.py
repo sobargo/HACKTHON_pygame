@@ -4,6 +4,7 @@ class  Mixaudio:
         self.music1 = r'asset\music\BLUE DRAGON_小林.mp3'
         self.music2 = r'asset\music\BLUE DRAGON_泽野.mp3'
         self.music3 = r'asset\music\Matryoshka - Sacred Play Secret Place.mp3'
+        self.music4 = r"asset\music\yuanshen.mp3"
 
         self.sound1 = r'asset\sounds\cannon1.mp3'
         self.sound2 = r'asset\sounds\powerup10.mp3'
@@ -16,8 +17,9 @@ class  Mixaudio:
         pygame.mixer.music.load(self.music1)
         #初始化音乐   
         
-        self.music_lst = [self.music1,self.music2,self.music3]
-        self.bgm_key = True
+        self.music_lst = [self.music1,self.music2,self.music3,self.music4]
+        
+        self.bgm_key = False
         self.bgm_num = 0
         self.bgm_num_temp = self.bgm_num
         #初始化音乐控制

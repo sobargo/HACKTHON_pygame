@@ -5,7 +5,7 @@ class Dig(pygame.sprite.Sprite):
         self.screen = tw_game.screen
         self.game = tw_game
         self.image = pygame.image.load(r'asset\image\map_Obstacles_png\dig.png').convert_alpha()  # 使用透明背景的爆炸图片
-        self.image = pygame.transform.scale(self.image, (32, 32))  # 调整大小，根据需要调整
+        self.image = pygame.transform.scale(self.image, (72, 72))  # 调整大小，根据需要调整
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = y

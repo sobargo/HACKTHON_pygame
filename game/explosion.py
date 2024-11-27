@@ -8,8 +8,8 @@ class Explosion(pygame.sprite.Sprite):
         self.image = self.images
         self.screen = tw_game.screen
         self.rect = self.image.get_rect()
-        self.rect.x = x - self.rect.width // 2  # 居中显示
-        self.rect.y = y - self.rect.height // 2
+        self.rect.x = x - self.rect.width  # // 2  # 居中显示
+        self.rect.y = y - self.rect.height # // 2
         #self.frame = 0
         #self.max_frame = len(self.images) - 1
         self.lifespan = 100  # 特效持续时间（帧数）

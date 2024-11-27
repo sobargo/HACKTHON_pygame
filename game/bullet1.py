@@ -13,7 +13,7 @@ class Bullet1(Sprite):
         self.rect.center = tw_game.player_tank.rect.center
         direction_vector = Vector2(mouse_pos) - Vector2(tank_pos)
         self.angle = direction_vector.angle_to(Vector2(0, -1))
-        self.velocity = direction_vector.normalize() * self.settings.bullet_speed
+        self.velocity = direction_vector.normalize() * self.settings.bullet1_speed
         self.position = Vector2(tank_pos)
         self.image = self.original_image
     def update(self):

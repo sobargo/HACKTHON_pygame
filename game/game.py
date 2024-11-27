@@ -33,7 +33,8 @@ class Tank_war:
         self.flag_1 = 0
         
         pygame.mixer.init()
-        pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
+ 
+        pygame.time.set_timer(pygame.USEREVENT, 1500)#刷怪频率1000ms
         self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
         self.clock = pygame.time.Clock()
         self.settings = Settings()
@@ -64,6 +65,8 @@ class Tank_war:
     def _create_base(self):
         self.base = Base(self)
         self.bases.add(self.base)
+    
+
         
     def _check_events(self):
         for event in pygame.event.get():
@@ -174,14 +177,14 @@ class Tank_war:
         for bullet in self.bullets.copy():
                 if bullet.rect.bottom<=0 or bullet.rect.top>=self.settings.screen_height or bullet.rect.left<=0 or bullet.rect.right>=self.settings.screen_width:
                     self.bullets.remove(bullet)
-        collisions1 = pygame.sprite.groupcollide(self.soldier_ts,self.bullets,True,True)
+        collisions1 = pygame.sprite.groupcollide(self.bullets,self.soldier_ts,True,True)
         for bullet,enemies in collisions1.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets+=1
             
             
-        collisions2 = pygame.sprite.groupcollide(self.soldier_bs,self.bullets,True,True)
+        collisions2 = pygame.sprite.groupcollide(self.bullets,self.soldier_bs,True,True)
         for bullet,enemies in collisions2.items():
             self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
@@ -391,7 +394,10 @@ class Tank_war:
 
 
     def run_game(self):
-        while True:
+        
+        self.audio.bgm_num = 0
+        self.audio.bgm_key = True
+        while True: 
             self._check_events()
             self.player_tank.update()
             self.bullets.update()
@@ -430,7 +436,8 @@ class Tank_war:
                 self.audio.music_player()           
                 break
     def game_start(self):
-        
+        self.audio.bgm_num = 3
+        self.audio.bgm_key = True
         running = True
         while running:
             self.audio.music_player()
@@ -445,7 +452,8 @@ class Tank_war:
 
 
     def game_over(self):
-        self.audio.music3 = True
+        self.audio.bgm_num = 1
+        self.audio.bgm_key = True
         while True:
             self.audio.music_player()
             self.background_image = pygame.image.load(r"asset\image\map_Obstacles_png\over2.jpg")
