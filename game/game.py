@@ -41,7 +41,7 @@ class Tank_war:
         pygame.display.set_caption("Tank war") # 设置窗口标题
         self.bases = pygame.sprite.Group() 
 
-        self.background_image = pygame.image.load(r"asset\image\background.jpg")
+        self.background_image = pygame.image.load(r"asset\image\background.png")
 
         self.player_tank = Player_tank(self)
         self.bullets = pygame.sprite.Group()
