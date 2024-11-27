@@ -33,13 +33,6 @@ class Tank_war:
         self.flag_1 = 0
         
         pygame.mixer.init()
-<<<<<<< HEAD
-
- 
-        pygame.time.set_timer(pygame.USEREVENT, 1500)#刷怪频率1000ms
-
-=======
->>>>>>> parent of dc18029 (小更新)
         pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
         self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
         self.clock = pygame.time.Clock()
