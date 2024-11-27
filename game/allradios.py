@@ -16,9 +16,8 @@ class  Mixaudio:
         pygame.mixer.music.load(self.music1)
         #初始化音乐   
         
-        self.music_lst = [self.music1,self.music2,self.music3,self.music4]
-        
-        self.bgm_key = False
+        self.music_lst = [self.music1,self.music2,self.music3]
+        self.bgm_key = True
         self.bgm_num = 0
         self.bgm_num_temp = self.bgm_num
         #初始化音乐控制
