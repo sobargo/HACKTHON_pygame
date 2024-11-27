@@ -5,14 +5,23 @@
 import pygame
 class  Mixaudio:
     def  __init__(self) -> None:
-        self.music1 = r'asset\music\BLUE DRAGON_小林.mp3'
-        self.music2 = r'asset\music\BLUE DRAGON_泽野.mp3'
-        self.music3 = r'asset\music\Matryoshka - Sacred Play Secret Place.mp3'
-
+        self.music1 = r'asset\sounds\bgm3.mp3'
+        self.music2 = r'asset\music\BLUE DRAGON_小林.mp3'
+        self.music3 = r'asset\sounds\bgm2.mp3'
+        
         self.sound1 = r'asset\sounds\cannon1.mp3'
         self.sound2 = r'asset\sounds\powerup10.mp3'
         self.sound3 = r'asset\sounds\small_explosion1.mp3'
         self.sound4 = r"asset\sounds\machingun.wav"      
+        self.sound5 = r'asset\sounds\敌人寄.wav'
+        self.sound6 = r'asset\sounds\发射.wav'
+        self.sound7 = r'asset\sounds\发射2.wav'
+        self.sound8 = r'asset\sounds\捡起道具.wav'
+        self.sound9 = r'asset/sounds/警报,开场.wav'
+        self.sound10= r'asset\sounds\受击.wav'
+        self.sound11= r'asset\sounds\运动.wav'
+
+        
         #导入音乐音效
         #这里sound1代表cannon1,sound2代表powerup,sound3代表small_explosion1
 
@@ -30,6 +39,10 @@ class  Mixaudio:
         self.sound2 = pygame.mixer.Sound(self.sound2)
         self.sound3 = pygame.mixer.Sound(self.sound3)
         self.sound4 = pygame.mixer.Sound(self.sound4)
+        self.sound5 = pygame.mixer.Sound(self.sound5)
+        self.sound6 = pygame.mixer.Sound(self.sound6)
+        self.sound7 = pygame.mixer.Sound(self.sound7)
+        self.sound8 = pygame.mixer.Sound(self.sound8)
 
         self.sound_cannon_key = False 
         self.sound_powerup_key = False
@@ -60,7 +73,7 @@ class  Mixaudio:
         音效控制代码
         '''
         if self.sound_cannon_key == True:
-            pygame.mixer.Sound.play(self.sound1,loops=0)
+            pygame.mixer.Sound.play(self.sound7,loops=0)
             self.sound_cannon_key = False
         
         if self.sound_powerup_key == True:
@@ -71,6 +84,5 @@ class  Mixaudio:
             pygame.mixer.Sound.play(self.sound3,loops=0)
             self.sound_smallExplosion1_key = False
         if self.sound_machinegun_key == True:
-            pygame.mixer.Sound.play(self.sound4,loops=0)
-            self.sound_machingun_key = False
-        
+            pygame.mixer.Sound.play(self.sound10,loops=0)
+            self.sound_machinegun_key = False

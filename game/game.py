@@ -33,7 +33,9 @@ class Tank_war:
         pygame.init()
         pygame.mixer.init()
         pygame.time.set_timer(pygame.USEREVENT, 2000)#定时器，每2000ms触发一次
-        self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\small_explosion1.mp3')
+        self.collision2_sound = pygame.mixer.Sound(r'asset\sounds\敌人寄.wav')
+        self.player_boom_sound = pygame.mixer.Sound(r'asset/sounds/受击.wav')
+        self.begin = pygame.mixer.Sound(r'asset\sounds\警报,开场.wav')
         self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
@@ -144,7 +146,7 @@ class Tank_war:
                     self.bullets.remove(bullet)
         collisions1 = pygame.sprite.groupcollide(self.bullets,self.soldier_ts,True,True)
         for bullet,enemies in collisions1.items():
-            # self.collision2_sound.play()
+            self.collision2_sound.play()
             self.score += 1  # 击中敌人时增加分数
             self.remaining_bullets+=2
             x,y = bullet.rect.centerx,bullet.rect.centery
@@ -223,6 +225,7 @@ class Tank_war:
                 #判断碰撞 
                 if pygame.sprite.collide_rect(bullet, self.player_tank):
                     self.player_tank.hp -= 1
+                    self.player_boom_sound.play()
                     self.audio.sound_smallExplosion1_key = True
                     self.soldier_bs.remove(bullet)
                     
@@ -328,6 +331,7 @@ class Tank_war:
 
 
     def run_game(self):
+        self.begin.play()
         while True:
             self._check_events()
             self.player_tank.update()
